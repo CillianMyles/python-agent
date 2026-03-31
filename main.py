@@ -15,9 +15,9 @@ def main():
     client = genai.Client(api_key=gemini_api_key)
     model = "gemini-2.5-flash"
     prompt = "Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum."
-    response = client.models.generate_content(model=model, contents=prompt)
     print(f'Model --> "{model}"')
     print(f'Prompt --> "{prompt}"')
+    response = client.models.generate_content(model=model, contents=prompt)
     print(f'Response --> "{response.text}"')
 
 

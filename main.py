@@ -1,7 +1,8 @@
 import argparse
 import os
 from dotenv import load_dotenv
-from google.genai import Client, types
+from google.genai import Client
+from google.genai.types import Content, GenerateContentResponse, Part
 
 
 MODEL = "gemini-2.5-flash"
@@ -23,7 +24,7 @@ def main():
     prompt = args.user_prompt
     print(f'Prompt: "{prompt}"')
 
-    messages = [types.Content(role="user", parts=[types.Part(text=prompt)])]
+    messages = [Content(role="user", parts=[Part(text=prompt)])]
     client = Client(api_key=gemini_api_key)
     response = _generate_content(client, MODEL, messages)
     print(f'Response: "{response.text}"')
@@ -33,7 +34,7 @@ def main():
 
 def _generate_content(
     client: Client, model: str, contents: str
-) -> types.GenerateContentResponser:
+) -> GenerateContentResponse:
     response = client.models.generate_content(model=model, contents=contents)
     if not response:
         raise RuntimeError("expected response")

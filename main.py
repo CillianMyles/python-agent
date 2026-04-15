@@ -1,7 +1,7 @@
 import argparse
 import os
 from dotenv import load_dotenv
-from google import genai
+from google.genai import Client, types
 
 
 MODEL = "gemini-2.5-flash"
@@ -23,16 +23,25 @@ def main():
     prompt = args.user_prompt
     print(f'Prompt: "{prompt}"')
 
-    client = genai.Client(api_key=gemini_api_key)
-    response = client.models.generate_content(model=MODEL, contents=prompt)
-    if not response:
-        raise RuntimeError("expected response")
+    messages = [types.Content(role="user", parts=[types.Part(text=prompt)])]
+    client = Client(api_key=gemini_api_key)
+    response = _generate_content(client, MODEL, messages)
     print(f'Response: "{response.text}"')
-
-    if not response.usage_metadata:
-        raise RuntimeError("expected response usage metadata")
     print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
     print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
+
+
+def _generate_content(
+    client: Client, model: str, contents: str
+) -> types.GenerateContentResponser:
+    response = client.models.generate_content(model=model, contents=contents)
+    if not response:
+        raise RuntimeError("expected response")
+    if not response.text:
+        raise RuntimeError("expected response text")
+    if not response.usage_metadata:
+        raise RuntimeError("expected response usage metadata")
+    return response
 
 
 if __name__ == "__main__":

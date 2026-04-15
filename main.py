@@ -1,10 +1,10 @@
+import argparse
 import os
 from dotenv import load_dotenv
 from google import genai
 
 
 MODEL = "gemini-2.5-flash"
-PROMPT = "Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum."
 
 
 def main():
@@ -16,10 +16,15 @@ def main():
         )
     print(f'GEMINI_API_KEY: "{gemini_api_key}"')
     print(f'Model: "{MODEL}"')
-    print(f'Prompt: "{PROMPT}"')
+
+    parser = argparse.ArgumentParser(description="Chatbot")
+    parser.add_argument("user_prompt", type=str, help="User prompt")
+    args = parser.parse_args()
+    prompt = args.user_prompt
+    print(f'Prompt: "{prompt}"')
 
     client = genai.Client(api_key=gemini_api_key)
-    response = client.models.generate_content(model=MODEL, contents=PROMPT)
+    response = client.models.generate_content(model=MODEL, contents=prompt)
     if not response:
         raise RuntimeError("expected response")
     print(f'Response: "{response.text}"')

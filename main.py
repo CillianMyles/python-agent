@@ -15,21 +15,27 @@ def main():
         raise RuntimeError(
             'Required environment variable "GEMINI_API_KEY" was missing or empty!'
         )
-    print(f'GEMINI_API_KEY: "{gemini_api_key}"')
-    print(f'Model: "{MODEL}"')
 
     parser = argparse.ArgumentParser(description="Chatbot")
     parser.add_argument("user_prompt", type=str, help="User prompt")
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
     args = parser.parse_args()
     prompt = args.user_prompt
-    print(f'Prompt: "{prompt}"')
+    verbose = args.verbose
+    if verbose:
+        print(f'GEMINI_API_KEY: "{gemini_api_key}"')
+        print(f'Model: "{MODEL}"')
+        print(f'Prompt: "{prompt}"')
 
     messages = [Content(role="user", parts=[Part(text=prompt)])]
     client = Client(api_key=gemini_api_key)
     response = _generate_content(client, MODEL, messages)
+    prompt_tokens = response.usage_metadata.prompt_token_count
+    response_tokens = response.usage_metadata.candidates_token_count
     print(f'Response: "{response.text}"')
-    print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
-    print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
+    if verbose:
+        print(f"Prompt tokens: {prompt_tokens}")
+        print(f"Response tokens: {response_tokens}")
 
 
 def _generate_content(

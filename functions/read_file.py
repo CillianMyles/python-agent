@@ -7,11 +7,9 @@ def read_file(working_directory, file_path):
     try:
         abs_working_dir = os.path.abspath(working_directory)
         target_file = os.path.normpath(os.path.join(abs_working_dir, file_path))
-        print(f"working: {abs_working_dir}")
-        print(f"target: {target_file}")
 
         if os.path.commonpath([abs_working_dir, target_file]) != abs_working_dir:
-            return f'Error: Cannot read "{file_path}" as it is outside the permitted working directory'
+            return f'Error: Cannot read outside the permitted working directory: "{file_path}"'
 
         if not os.path.exists(target_file):
             return f'Error: File not found: "{file_path}"'
@@ -27,4 +25,4 @@ def read_file(working_directory, file_path):
         return contents
 
     except Exception as e:
-        return f"Error: reading file: {e}"
+        return f"Error: Failed to read file: {e}"

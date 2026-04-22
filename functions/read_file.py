@@ -3,7 +3,7 @@ import os
 from config import MAX_CHARS
 
 
-def get_file_content(working_directory, file_path):
+def read_file(working_directory, file_path):
     try:
         abs_working_dir = os.path.abspath(working_directory)
         target_file = os.path.normpath(os.path.join(abs_working_dir, file_path))

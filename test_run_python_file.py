@@ -11,7 +11,7 @@ def main():
     print("")
 
     print("tests.py:")
-    print(run_python_file("calculator", "tests"))
+    print(run_python_file("calculator", "tests.py"))
     print("")
 
     print("../main.py:")

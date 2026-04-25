@@ -10,7 +10,7 @@ def main():
     print(write_file("calculator", "pkg/morelorem.txt", "lorem ipsum dolor sit amet"))
     print("")
 
-    print("/tmp/temp.txt")
+    print("/tmp/temp.txt:")
     print(write_file("calculator", "/tmp/temp.txt", "this should not be allowed"))
     print("")
 

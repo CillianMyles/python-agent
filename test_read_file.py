@@ -14,11 +14,11 @@ def main():
     print(read_file("calculator", "pkg/calculator.py"))
     print("")
 
-    print("/bin/cat:")
+    print("/bin/cat")
     print(read_file("calculator", "/bin/cat"))
     print("")
 
-    print("pkg/does_not_exist.py:")
+    print("pkg/does_not_exist.py")
     print(read_file("calculator", "pkg/does_not_exist.py"))
     print("")
 

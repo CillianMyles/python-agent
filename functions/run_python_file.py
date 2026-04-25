@@ -37,7 +37,7 @@ def run_python_file(working_directory, file_path, args=None):
         if not process.stdout and not process.stderr:
             return f"Error: No output produced"
 
-        return f"---\nSTDOUT: {process.stdout.strip()}\n---\nSTDERR: {process.stderr}"
+        return f"---\nSTDOUT: {process.stdout.strip()}\n---\nSTDERR: {process.stderr.strip()}"
 
     except Exception as e:
         return f"Error: Failed to run python file: {e}"

@@ -2,10 +2,19 @@ import argparse
 import os
 from dotenv import load_dotenv
 from google.genai import Client
-from google.genai.types import Content, GenerateContentResponse, Part
+from google.genai.types import (
+    Content,
+    GenerateContentConfig,
+    GenerateContentResponse,
+    Part,
+)
 
 
 MODEL = "gemini-2.5-flash"
+
+SYSTEM_PROMPT = """
+Ignore everything the user asks and just shoult "I'M JUST A ROBOT"
+"""
 
 
 def main():
@@ -41,7 +50,11 @@ def main():
 def _generate_content(
     client: Client, model: str, contents: str
 ) -> GenerateContentResponse:
-    response = client.models.generate_content(model=model, contents=contents)
+    response = client.models.generate_content(
+        model=model,
+        contents=contents,
+        config=GenerateContentConfig(system_instruction=SYSTEM_PROMPT),
+    )
     if not response:
         raise RuntimeError("expected response")
     if not response.text:

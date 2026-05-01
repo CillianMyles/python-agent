@@ -1,5 +1,7 @@
 import os
 
+from google.genai.types import FunctionDeclaration, Schema, Type
+
 
 def list_files(working_directory, directory="."):
     try:
@@ -25,3 +27,18 @@ def list_files(working_directory, directory="."):
 
     except Exception as e:
         return f"Error: Failed to list files: {e}"
+
+
+schema_list_files = FunctionDeclaration(
+    name="list_files",
+    description="Lists files in a specified directory relative to the working directory, providing file size and directory status",
+    parameters=Schema(
+        type=Type.OBJECT,
+        properties={
+            "directory": Schema(
+                type=Type.STRING,
+                description="Directory path to list files from, relative to the working directory (default is the working directory itself)",
+            ),
+        },
+    ),
+)

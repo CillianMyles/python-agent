@@ -1,5 +1,7 @@
 import os
 
+from google.genai.types import FunctionDeclaration, Schema, Type
+
 from config import MAX_CHARS
 
 
@@ -26,3 +28,18 @@ def read_file(working_directory, file_path):
 
     except Exception as e:
         return f"Error: Failed to read file: {e}"
+
+
+schema_read_file = FunctionDeclaration(
+    name="read_file",
+    description="Read the contents of a specified file",
+    parameters=Schema(
+        type=Type.OBJECT,
+        properties={
+            "file_path": Schema(
+                type=Type.STRING,
+                description="Path to the file to be read, relative to the current working directory",
+            ),
+        },
+    ),
+)
